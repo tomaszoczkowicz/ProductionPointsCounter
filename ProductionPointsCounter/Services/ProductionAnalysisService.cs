@@ -13,6 +13,7 @@ namespace ProductionPointsCounterAPI.Services
     {
         IEnumerable<OrdersDto> GetOrders(int amountOfOrders);
         IEnumerable<OrdersDto> GetToday();
+        ProductionDesktopDto GetDesktop();
     }
 
     public class ProductionAnalysisService : IProductionAnalysisService
@@ -60,10 +61,21 @@ namespace ProductionPointsCounterAPI.Services
                     ProductionPoints = x.IlJedn
                 })
                 .OrderByDescending(x => x.ProductionDate)
-                .Take(100)
                 .AsNoTracking()
                 .ToList();
             return ordersDtos;
+        }
+
+        public ProductionDesktopDto GetDesktop()
+        {
+
+        var productionDesktopDto = new ProductionDesktopDto();
+            productionDesktopDto.OrderList = GetToday();
+            productionDesktopDto.PlannedPoints = Math.Round((double)productionDesktopDto.OrderList.Sum(x => x.ProductionPoints),2);
+            productionDesktopDto.CompletedPoints = Math.Round((double)productionDesktopDto.OrderList.Where(x=> x.Status != "Produkcja").Sum(x => x.ProductionPoints)); 
+            
+
+            return productionDesktopDto;
         }
     }
 }

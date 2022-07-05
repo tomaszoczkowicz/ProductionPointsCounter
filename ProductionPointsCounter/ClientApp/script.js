@@ -1,13 +1,43 @@
-const p = document.querySelector('p')
-const tbody = document.querySelector('tbody')
+const h1 = document.querySelector('h1')
+const pointsbody = document.querySelector('.points-body')
+const tbody = document.querySelector('.orders-body')
 const URL = 
-'https://localhost:7166/api/today'
+'https://localhost:7166/api/desktop'
+
+let date = new Date().toJSON().slice(0, 10)
+h1.textContent = `Produkcja na dzień: ${date}`
 
 async function getOrders() {
-    const response = await axios.get(URL).then(res => res.data)
-    console.log(response);
-    
-    response.forEach(element => {
+    let orders
+    let productionPoints
+    let completedPoints
+    let percentageCompleted
+     await axios.get(URL).then(res => 
+        {
+            orders = res.data.orderList
+            productionPoints = res.data.plannedPoints
+            completedPoints = res.data.completedPoints
+        })
+    percentageCompleted = ((completedPoints/productionPoints)*100).toFixed()
+
+    // console.log(orders);
+    // console.log(productionPoints);
+    // console.log(completedPoints);
+     console.log(percentageCompleted);
+
+    const pointsTr = document.createElement('tr')
+    const completedPointsTd = document.createElement('td')
+    completedPointsTd.textContent = completedPoints 
+    pointsTr.appendChild(completedPointsTd)   
+    const plannedPointsTd = document.createElement('td')
+    plannedPointsTd.textContent = productionPoints   
+    pointsTr.appendChild(plannedPointsTd)
+    const percentagePointsTd = document.createElement('td')
+    percentagePointsTd.textContent = percentageCompleted+"%"  
+    pointsTr.appendChild(percentagePointsTd)
+    pointsbody.appendChild(pointsTr)
+
+    orders.forEach(element => {
         const tr = document.createElement('tr')
         const tdOrder = document.createElement('td')
         tdOrder.textContent = element.orderName
@@ -20,6 +50,7 @@ async function getOrders() {
         tr.appendChild(tdPoints)
         tbody.appendChild(tr)
     });
-}
 
-setInterval(getOrders, 10000)
+}
+getOrders()
+//setInterval(getOrders, 10000)

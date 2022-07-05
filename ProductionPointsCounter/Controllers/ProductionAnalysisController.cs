@@ -34,5 +34,13 @@ namespace ProductionPointsCounterAPI.Controllers
             var ordersDtos = _productionAnalysisService.GetToday();
             return Ok(ordersDtos);
         }
+        [HttpGet]
+        [Route("desktop")]
+        public ActionResult<ProductionDesktopDto> GetDesktop()
+        {
+
+            var ordersDtos = _productionAnalysisService.GetDesktop();
+            return Ok(ordersDtos);
+        }
     }
 }

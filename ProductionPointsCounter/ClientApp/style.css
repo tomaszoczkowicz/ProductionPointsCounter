@@ -14,7 +14,7 @@ body {
 	font-family: 'Open Sans', sans-serif;
 	color: #fff;
 	background-color: #1e1d23;
-	font-size: 24px;
+	font-size: 28px;
 }
 
 ul {
@@ -22,7 +22,7 @@ ul {
     list-style-type: none;
     
     }
-.styled-table{
+.orders-table{
     border-collapse: collapse;
     margin: 25px 0;
     font-size: 0.9em;
@@ -30,10 +30,10 @@ ul {
     min-width: 400px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
-.styled-table th {
+.orders-table th {
     padding: 20px 15px;
 }
-.styled-table td {
+.orders-table td {
     padding: 12px 15px;
 }
 .result {
