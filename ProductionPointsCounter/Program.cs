@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using ProductionPointsCounterAPI.Entities;
+using ProductionPointsCounterAPI.Services;
 
 namespace ProductionPointsCounterAPI
 {
@@ -11,14 +12,21 @@ namespace ProductionPointsCounterAPI
 
             // Add services to the container.
             builder.Services.AddControllers();
-            builder.Services.AddDbContext<Sandbox_01Context>(
+            builder.Services.AddDbContext<DataBaseContext>(
                 option => option
                 .UseSqlServer(builder.Configuration.GetConnectionString("ProductionConnectionString")));
-
+            builder.Services.AddScoped<IProductionAnalysisService, ProductionAnalysisService>();
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("FrontEndClient", builder => 
+                builder.AllowAnyMethod()
+                       .AllowAnyHeader()
+                       .AllowAnyOrigin());
+            });
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-
+            app.UseCors("FrontEndClient");
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

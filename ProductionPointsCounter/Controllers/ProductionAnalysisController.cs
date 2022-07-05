@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ProductionPointsCounterAPI.Entities;
 using ProductionPointsCounterAPI.Models;
+using ProductionPointsCounterAPI.Services;
 
 namespace ProductionPointsCounterAPI.Controllers
 {
@@ -9,35 +10,29 @@ namespace ProductionPointsCounterAPI.Controllers
     [Route("api")]
     public class ProductionAnalysisController : ControllerBase
     {
-        private readonly Sandbox_01Context _dbContext;
 
+        private readonly IProductionAnalysisService _productionAnalysisService;
 
-        public ProductionAnalysisController(Sandbox_01Context dbContext)
+        public ProductionAnalysisController(IProductionAnalysisService productionAnalysisService)
         {
-            _dbContext = dbContext;
-
+            
+            _productionAnalysisService = productionAnalysisService;
         }
 
+        [HttpGet("orders/{amountOfOrders}")]
+        public ActionResult<IEnumerable<OrdersDto>> GetOrders([FromRoute]int amountOfOrders)
+        {
+
+            var ordersDtos = _productionAnalysisService.GetOrders(amountOfOrders);
+            return Ok(ordersDtos);
+        }
         [HttpGet]
-        public ActionResult<IEnumerable<OrdersDto>> Get()
+        [Route("today")]
+        public ActionResult<IEnumerable<OrdersDto>> GetToday()
         {
 
-            var sampleData = _dbContext.Oferties
-                .Where(x => x.ZlecenieT != "")
-                .Select(x => new OrdersDto()
-                {
-                    OrderName = x.ZlecenieT,
-                    Status = x.Stan,
-                    Id = x.Indeks,
-                    ProductionDate = x.Realizacja,
-                    ProductionPoints = x.IlJedn
-                })
-                .OrderByDescending(x => x.ProductionDate)
-                .Take(100)
-                .AsNoTracking()
-                .ToList();
-            return Ok(sampleData);
+            var ordersDtos = _productionAnalysisService.GetToday();
+            return Ok(ordersDtos);
         }
-
     }
 }

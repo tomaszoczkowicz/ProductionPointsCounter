@@ -2,13 +2,13 @@
 
 namespace ProductionPointsCounterAPI.Entities
 {
-    public partial class Sandbox_01Context : DbContext
+    public partial class DataBaseContext : DbContext
     {
-        public Sandbox_01Context()
+        public DataBaseContext()
         {
         }
 
-        public Sandbox_01Context(DbContextOptions<Sandbox_01Context> options)
+        public DataBaseContext(DbContextOptions<DataBaseContext> options)
             : base(options)
         {
         }
