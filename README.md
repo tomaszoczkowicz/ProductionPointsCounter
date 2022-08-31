@@ -15,7 +15,7 @@ into completed and to be produced.
 The client application is a simple website that can be run on smart tv.
 It shows the list and the percentage of production progress.
 
-![Main window](ppc.png)
+![Main window](ppcscreen.PNG)
 
 ## Technologies
 
