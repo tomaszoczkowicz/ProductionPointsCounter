@@ -1,6 +1,6 @@
 # ProductionPontsCounter
 
-This app shows current orders on the display in the production hall in OknoPlus.
+This app shows current orders on the display in the production hall in a window manufacturing company
 
 ## Table of contents
 * [General info](#general-info)
